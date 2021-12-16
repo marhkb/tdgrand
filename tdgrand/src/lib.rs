@@ -25,6 +25,21 @@ pub fn create_client() -> i32 {
     tdjson::create_client()
 }
 
+/// Sets the callback that will be called when a message is added to the internal TDLib log.
+/// None of the TDLib methods can be called from the callback.
+/// By default the callback is not set.
+///
+/// * `max_verbosity_level` - The maximum verbosity level of messages for which the callback will
+///                           be called.
+/// * `callback` - Callback that will be called when a message is added to the internal TDLib log.
+///                Pass `None` to remove the callback.
+pub fn set_log_message_callback(
+    max_verbosity_level: i32,
+    callback: Option<Box<dyn Fn(i32, &str) + Send>>,
+) {
+    tdjson::set_log_message_callback(max_verbosity_level, callback);
+}
+
 /// Receive a single update or response from TdLib. If it's an update, it
 /// returns a tuple with the `Update` and the associated `client_id`.
 /// Note that to start receiving updates for a client you need to send
